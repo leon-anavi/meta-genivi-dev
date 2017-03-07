@@ -16,7 +16,10 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = " \
           git://github.com/advancedtelematic/aktualizr \
+          file://aktualizr.service \
           "
+
+SYSTEMD_SERVICE_${PN} = "aktualizr.service"
 
 DEPENDS = "boost curl openssl jansson dbus "
 RDEPENDS_aktualizr = "dbus-lib "
@@ -24,11 +27,14 @@ RDEPENDS_aktualizr = "dbus-lib "
 EXTRA_OECMAKE = "-DWARNING_AS_ERROR=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_GENIVI=ON"
 
 do_install() {
-  install -d ${D}${bindir}
-  install -m 0755 ${WORKDIR}/build/aktualizr ${D}${bindir}/
+    install -d ${D}${bindir}
+    install -m 0755 ${WORKDIR}/build/aktualizr ${D}${bindir}/
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/aktualizr.service ${D}${systemd_system_unitdir}
 }
 
 FILES_${PN} = " \
               ${sysconfdir}/dbus-1/system.d/org.genivi.SotaClient.conf \
               ${bindir}/aktualizr \
+              ${systemd_system_unitdir}/aktualizr.service \
               "
