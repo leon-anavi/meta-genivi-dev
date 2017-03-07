@@ -10,7 +10,7 @@ inherit cmake systemd
 
 S = "${WORKDIR}/git"
 
-SRCREV = "1b7b9d92f432188f7c12ab19d4f736098b199a9f"
+SRCREV = "2c9aabbfd84851309845b4623bb2f20682d47117"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
@@ -18,16 +18,17 @@ SRC_URI = " \
           git://github.com/advancedtelematic/aktualizr \
           "
 
-DEPENDS = "boost curl openssl dbus common-api-c++-dbus dlt-daemon gmock gtest"
-RDEPENDS = ""
+DEPENDS = "boost curl openssl jansson dbus "
+RDEPENDS_aktualizr = "dbus-lib "
 
-EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_DBUS_GATEWAY=ON -DSTAGING_DIR_TARGET=${STAGING_DIR_TARGET} -DGMOCK_ROOT=${STAGING_DIR_TARGET}${includedir}/gmock"
+EXTRA_OECMAKE = "-DWARNING_AS_ERROR=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_GENIVI=ON"
 
 do_install() {
   install -d ${D}${bindir}
-  install -m 0755 ${WORKDIR}/build/target/sota_client ${D}${bindir}/aktualizr
+  install -m 0755 ${WORKDIR}/build/aktualizr ${D}${bindir}/
 }
 
 FILES_${PN} = " \
+              ${sysconfdir}/dbus-1/system.d/org.genivi.SotaClient.conf \
               ${bindir}/aktualizr \
               "
