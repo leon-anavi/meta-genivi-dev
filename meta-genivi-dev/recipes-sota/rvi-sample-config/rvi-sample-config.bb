@@ -29,7 +29,7 @@ do_install() {
 	install -d ${DIR}/priv/certificates
 	install -d ${DIR}/priv/credentials
 	install -d ${D}/var/sota
-	install sota.toml ${D}/${sysconfdir}/sota.toml
+	install sota.toml ${D}/${sysconfdir}/sota.toml.sample
 	install conf.json ${DIR}/conf.json
 	install priv/keys/insecure_device_key.pem ${DIR}/priv/keys/insecure_device_key.pem
 	install priv/certificates/insecure_device_cert.crt ${DIR}/priv/certificates/insecure_device_cert.crt
