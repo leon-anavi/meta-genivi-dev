@@ -8,6 +8,7 @@ Requires=network-online.target
 RestartSec=5
 Restart=on-failure
 TimeoutStopSec=5
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
 ExecStartPre=/bin/echo "Loading, please wait..."
 ExecStartPre=/bin/sleep 45
 ExecStart=/usr/bin/aktualizr --config /etc/sota.toml
